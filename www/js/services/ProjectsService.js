@@ -2,8 +2,8 @@
 		.module('todoApp')
 		.factory('Projects', Projects);
 
-	Projects.$inject = ['$firebaseArray'];
-	function Projects($firebaseArray) {
+	Projects.$inject = ['$firebaseArray','FireBaseUrl'];
+	function Projects($firebaseArray, FireBaseUrl) {
 
 		var service = {
 			all: all,
@@ -16,7 +16,7 @@
 		var globalProjects = [];
 
 		//set reference to firebase DB
-		var ref = new Firebase("https://ionic-todo-az.firebaseio.com");
+		var ref = new Firebase(FireBaseUrl);
 
 		//set projects equal to Firebase DB transformed to array (this will stay in sync with DB)
 		var globalProjects = $firebaseArray(ref);

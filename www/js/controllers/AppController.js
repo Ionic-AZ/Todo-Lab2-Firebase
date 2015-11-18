@@ -2,11 +2,11 @@
 		.module('todoApp')
 		.controller('AppController', AppController);
 			
-	AppController.$inject = ['$scope', '$state', '$ionicModal', '$ionicSideMenuDelegate', 'Projects', '$firebaseArray'];
-	function AppController($scope, $state, $ionicModal, $ionicSideMenuDelegate, Projects, $firebaseArray) {
+	AppController.$inject = ['$scope', '$state', '$ionicModal', '$ionicSideMenuDelegate', 'Projects', '$firebaseArray', 'FireBaseUrl'];
+	function AppController($scope, $state, $ionicModal, $ionicSideMenuDelegate, Projects, $firebaseArray, FireBaseUrl) {
 
 		//set reference to Firebase DB
-		var ref = new Firebase("https://ionic-todo-az.firebaseio.com");
+		var ref = new Firebase(FireBaseUrl);
 		
 		//set projects equal to Firebase DB transformed to array (this will stay in sync with DB)
 		var list = $firebaseArray(ref);
