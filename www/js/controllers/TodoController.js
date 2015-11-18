@@ -2,8 +2,8 @@
 		.module('todoApp')
 		.controller('ToDoController', ToDoController);
 
-	ToDoController.$inject = ['$scope', 'Projects', '$ionicModal', '$firebaseArray'];
-	function ToDoController($scope, Projects, $ionicModal, $firebaseArray) {
+	ToDoController.$inject = ['$scope', 'Projects', '$ionicModal', '$firebaseArray', 'FireBaseUrl'];
+	function ToDoController($scope, Projects, $ionicModal, $firebaseArray, FireBaseUrl) {
 		
 		// Create our modal
 		$ionicModal.fromTemplateUrl('templates/new-task.html', function(modal) {
@@ -27,7 +27,7 @@
 			console.log('active project: ', $scope.activeProject);
 
 			//setting firebase reference to match that of current project's tasks
-			var ref = new Firebase('https://ionic-todo-az.firebaseio.com/' + $scope.activeProject.$id + '/tasks');
+			var ref = new Firebase(FireBaseUrl + $scope.activeProject.$id + '/tasks');
      		var obj = $firebaseArray(ref);
 
 			//adding a new task
