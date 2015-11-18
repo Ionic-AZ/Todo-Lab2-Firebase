@@ -20,7 +20,8 @@
     <ion-content>
 	  <ion-list>
 		  <ion-item ng-repeat="project in projects" ng-click="selectProject(project, $index)">
-				{{project.title}}<i class="ion-close-round pull-right" ng-click="deleteProject($index)"></i>	  
+				{{project.title}}	  
+        <div class="ion-close-round pull-right" style="z-index: 1000;" ng-click="deleteProject($index)"></div>
 		  </ion-item>
 		  <ion-item menu-close href="#/app/about">
 		  		About
@@ -29,6 +30,3 @@
     </ion-content>
   </ion-side-menu>
 </ion-side-menus>
-
-
-
