@@ -1,0 +1,24 @@
+dependencies: \
+  /Users/jpjames/Documents/projects/Todo-Lab2-Firebase/platforms/ios/todoApp/Plugins/cordova-plugin-console/CDVLogger.m \
+  /Users/jpjames/Documents/projects/Todo-Lab2-Firebase/platforms/ios/todoApp/Plugins/cordova-plugin-console/CDVLogger.h \
+  /Users/jpjames/Documents/projects/Todo-Lab2-Firebase/platforms/ios/build/emulator/include/Cordova/CDVPlugin.h \
+  /Users/jpjames/Documents/projects/Todo-Lab2-Firebase/platforms/ios/build/emulator/include/Cordova/CDVPluginResult.h \
+  /Users/jpjames/Documents/projects/Todo-Lab2-Firebase/platforms/ios/build/emulator/include/Cordova/CDVAvailability.h \
+  /Users/jpjames/Documents/projects/Todo-Lab2-Firebase/platforms/ios/build/emulator/include/Cordova/CDVAvailabilityDeprecated.h \
+  /Users/jpjames/Documents/projects/Todo-Lab2-Firebase/platforms/ios/build/emulator/include/Cordova/NSMutableArray+QueueAdditions.h \
+  /Users/jpjames/Documents/projects/Todo-Lab2-Firebase/platforms/ios/build/emulator/include/Cordova/CDVCommandDelegate.h \
+  /Users/jpjames/Documents/projects/Todo-Lab2-Firebase/platforms/ios/build/emulator/include/Cordova/CDVInvokedUrlCommand.h \
+  /Users/jpjames/Documents/projects/Todo-Lab2-Firebase/platforms/ios/build/emulator/include/Cordova/CDV.h \
+  /Users/jpjames/Documents/projects/Todo-Lab2-Firebase/platforms/ios/build/emulator/include/Cordova/CDVViewController.h \
+  /Users/jpjames/Documents/projects/Todo-Lab2-Firebase/platforms/ios/build/emulator/include/Cordova/CDVCommandQueue.h \
+  /Users/jpjames/Documents/projects/Todo-Lab2-Firebase/platforms/ios/build/emulator/include/Cordova/CDVWhitelist.h \
+  /Users/jpjames/Documents/projects/Todo-Lab2-Firebase/platforms/ios/build/emulator/include/Cordova/CDVScreenOrientationDelegate.h \
+  /Users/jpjames/Documents/projects/Todo-Lab2-Firebase/platforms/ios/build/emulator/include/Cordova/CDVURLProtocol.h \
+  /Users/jpjames/Documents/projects/Todo-Lab2-Firebase/platforms/ios/build/emulator/include/Cordova/CDVDebug.h \
+  /Users/jpjames/Documents/projects/Todo-Lab2-Firebase/platforms/ios/build/emulator/include/Cordova/CDVLocalStorage.h \
+  /Users/jpjames/Documents/projects/Todo-Lab2-Firebase/platforms/ios/build/emulator/include/Cordova/CDVTimer.h \
+  /Users/jpjames/Documents/projects/Todo-Lab2-Firebase/platforms/ios/build/emulator/include/Cordova/NSArray+Comparisons.h \
+  /Users/jpjames/Documents/projects/Todo-Lab2-Firebase/platforms/ios/build/emulator/include/Cordova/NSData+Base64.h \
+  /Users/jpjames/Documents/projects/Todo-Lab2-Firebase/platforms/ios/build/emulator/include/Cordova/NSDictionary+Extensions.h \
+  /Users/jpjames/Documents/projects/Todo-Lab2-Firebase/platforms/ios/build/emulator/include/Cordova/UIDevice+Extensions.h \
+  /Users/jpjames/Documents/projects/Todo-Lab2-Firebase/platforms/ios/build/emulator/include/Cordova/CDVJSON.h
