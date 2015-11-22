@@ -6,6 +6,9 @@ platforms/
 plugins/
 .vs/
 bld/
+bin/
+changeList.json
+*.suo
 *.user
 .DS_STORE
 www/lib
