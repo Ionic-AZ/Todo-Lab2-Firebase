@@ -4,6 +4,8 @@
 node_modules/
 platforms/
 plugins/
-
+.vs/
+bld/
+*.user
 .DS_STORE
 www/lib
