@@ -39,9 +39,6 @@ function ToDoController($scope, Projects, $ionicModal, $firebaseArray, FireBaseU
 	};
 
 	$scope.deleteTask = function (taskKey) {
-		var ref = $scope.projects.$ref();
-		var projectId = $scope.activeProject.$id;
-		var taskObj = ref.child(projectId).child('tasks').child(taskKey);
-		taskObj.remove();
+		Projects.deleteTask($scope.activeProject.$id, taskKey);
 	}
 }

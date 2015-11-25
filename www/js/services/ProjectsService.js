@@ -19,7 +19,8 @@
 			setLastActiveIndex: setLastActiveIndex,
 			deleteProject: deleteProject,
 			newTask: newTask,
-			completeTask: completeTask
+			completeTask: completeTask,
+			deleteTask: deleteTask
 		};
 		
 		return service;
@@ -28,11 +29,14 @@
 			return globalProjects;
 		}
 		
-		function deleteProject(index) {
-			var item = globalProjects[index];
-			globalProjects.$remove(item).then(function(ref) {
-			  console.log('project successfully deleted: ', ref);
-			});
+		function deleteProject(key) {
+			console.log('Projects.deleteProject');
+			var item = globalProjects.$getRecord(key);
+			return globalProjects.$remove(item);
+			//.then(function(ref) {
+			//	console.log('project successfully deleted: ', ref);
+			//	return ref;
+			//});
 
 		}
 
@@ -84,6 +88,12 @@
 			}
 
 			taskObj.set(task);
+		}
+
+		function deleteTask(projectId, taskKey) {
+			var ref = globalProjects.$ref();
+			var taskObj = ref.child(projectId).child('tasks').child(taskKey);
+			taskObj.remove();
 		}
 		
 	}

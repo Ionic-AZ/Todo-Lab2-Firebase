@@ -86,7 +86,15 @@ function AppController($scope, $state, $ionicModal, $ionicSideMenuDelegate, Proj
 		project.title = '';
 	};
 
-	$scope.deleteProject = function (index) {
-		Projects.deleteProject(index);
+	$scope.deleteProject = function (key) {
+		console.log('deleteProject', key);
+		Projects.deleteProject(key).then(function(ref) {
+			if ($scope.projects.length > 0) {
+				$scope.selectProject($scope.projects[0].$id);
+			} else {
+				$scope.activeProject = { title: '', tasks: [] };
+				$scope.showProjectModal();
+			}
+		});
 	};
 }
