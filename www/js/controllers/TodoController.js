@@ -31,4 +31,17 @@ function ToDoController($scope, Projects, $ionicModal, $firebaseArray, FireBaseU
 		$scope.hideLoading();
 		$scope.taskModal.hide();
 	}
+
+	$scope.completeTask = function (task, taskKey) {
+		console.log('task', task);
+		var projectId = $scope.activeProject.$id;
+		Projects.completeTask(task, projectId, taskKey);
+	};
+
+	$scope.deleteTask = function (taskKey) {
+		var ref = $scope.projects.$ref();
+		var projectId = $scope.activeProject.$id;
+		var taskObj = ref.child(projectId).child('tasks').child(taskKey);
+		taskObj.remove();
+	}
 }

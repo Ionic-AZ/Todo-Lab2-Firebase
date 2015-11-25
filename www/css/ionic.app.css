@@ -9085,3 +9085,7 @@ a.button {
 .activeProject {
   background-color: #444;
   color: #ffffff; }
+
+.completedTask {
+  text-decoration: line-through;
+  color: #A9A9A9; }

@@ -18,7 +18,8 @@
 			getLastActiveIndex: getLastActiveIndex,
 			setLastActiveIndex: setLastActiveIndex,
 			deleteProject: deleteProject,
-			newTask: newTask
+			newTask: newTask,
+			completeTask: completeTask
 		};
 		
 		return service;
@@ -69,6 +70,20 @@
 			console.log('tasks', tasks);
 
 			tasks.push({ title: task.title, completed: false });
+		}
+
+		function completeTask(task, projectId, taskKey) {
+			var ref = globalProjects.$ref();
+			console.log('ref', ref);
+
+			var taskObj = ref.child(projectId).child('tasks').child(taskKey);
+			if (task.completed) {
+				task.completed = false;
+			} else {
+				task.completed = true;
+			}
+
+			taskObj.set(task);
 		}
 		
 	}

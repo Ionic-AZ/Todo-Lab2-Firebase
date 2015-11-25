@@ -26,3 +26,9 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 	background-color: $dark;
 	  color: #ffffff;
 }
+
+.completedTask {
+	text-decoration: line-through;
+	color: #A9A9A9;
+	
+}
