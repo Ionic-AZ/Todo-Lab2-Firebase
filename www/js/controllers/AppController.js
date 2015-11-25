@@ -1,75 +1,129 @@
-	angular
-		.module('todoApp')
-		.controller('AppController', AppController);
+angular
+	.module('todoApp')
+	.controller('AppController', AppController);
+
+AppController.$inject = [
+	'$scope',
+	'$state',
+	'$ionicModal',
+	'$ionicSideMenuDelegate',
+	'Projects',
+	'$ionicLoading',
+	'$ionicPopup'];
+function AppController(
+	$scope,
+	$state,
+	$ionicModal,
+	$ionicSideMenuDelegate,
+	Projects,
+	$ionicLoading,
+	$ionicPopup) {
+
+	//set reference to Firebase DB
+	var firebaseKeyRegEx = /^-[\w-]{19}$/;
+
+	//set projects equal to Firebase DB transformed to array (this will stay in sync with DB)
+	$scope.projects = Projects.all();
+
+	$scope.projects.$loaded()
+		.then(function () {
+			var lastActiveKey = Projects.getLastActiveIndex();
+			console.log('lastActiveKey', lastActiveKey);
+			console.log('Check FB Key', firebaseKeyRegEx.test(lastActiveKey));
 			
-	AppController.$inject = ['$scope', '$state', '$ionicModal', '$ionicSideMenuDelegate', 'Projects', '$firebaseArray', 'FireBaseUrl'];
-	function AppController($scope, $state, $ionicModal, $ionicSideMenuDelegate, Projects, $firebaseArray, FireBaseUrl) {
+			if ($scope.projects.length === 0) {
+				$scope.showProjectModal();
+			}
+			else if (firebaseKeyRegEx.test(lastActiveKey)) {
+				$scope.selectProject(lastActiveKey);
+			} else {
+				$scope.selectProject($scope.projects[0].$id);
+			}
+		})
+		.catch(function (error) {
+			console.error("Error:", error);
+		}).finally(function () {
+			$scope.hideLoading();
+		});
 
-		//set reference to Firebase DB
-		var ref = new Firebase(FireBaseUrl);
-		
-		//set projects equal to Firebase DB transformed to array (this will stay in sync with DB)
-		var list = $firebaseArray(ref);
+	// Selects the given project by it's firebase key
+	$scope.selectProject = function (key) {
+		console.log($scope.projects);
+		console.log('key', key);
+		$scope.activeProject = $scope.projects.$getRecord(key);
+		Projects.setLastActiveIndex(key);
+		$ionicSideMenuDelegate.toggleLeft(false);
+	};
 
-		
 
-		list.$loaded()
-			.then(function(x) {
-				$scope.projects = x;
-				$scope.activeProject = $scope.projects[0];
-			})
-			.catch(function(error) {
-				console.error("Error:", error);
+	$ionicModal.fromTemplateUrl('templates/new-project.html', function (modal) {
+		$scope.projectModal = modal;
+	}, {
+		scope: $scope
+	});
+
+	$scope.showLoading = function () {
+		$ionicLoading.show({
+			content: 'Loading',
+			animation: 'fade-in',
+			showBackdrop: true,
+			maxWidth: 200,
+			showDelay: 500
+		});
+	};
+	$scope.hideLoading = function () {
+		$ionicLoading.hide();
+	};
+	$scope.showLoading();
+
+	$scope.showProjectModal = function () {
+		$scope.projectModal.show();
+	};
+
+	$scope.closeNewProject = function () {
+		$scope.projectModal.hide();
+	};
+
+	$scope.newProject = function (project) {
+		if (!project) {
+			return;
+		}
+
+		$scope.showLoading();
+
+		Projects.newProject(project)
+			.then(function (ref) {
+				$scope.selectProject(ref.key());
+
+			}).finally(function () {
+				$scope.hideLoading();
 			});
 
-		$ionicModal.fromTemplateUrl('templates/new-project.html', function(modal) {
-			$scope.projectModal = modal;
-			}, {
-				scope: $scope
-			});
-			
-		$scope.showProjectModal = function () {
-			$scope.projectModal.show();
-		};
-		
-		$scope.closeNewProject = function () {
-			$scope.projectModal.hide();
-		};
-		
-		$scope.newProject = function (project) {
-			var projectTitle = project.title;
-			if (projectTitle) {
-				//calling newProject method in service that utilizes angularfire $add method
-				var newProject = Projects.newProject(projectTitle);
-				$scope.closeNewProject();
-				$ionicSideMenuDelegate.toggleLeft();
-				project.title = '';
-				newProject.then(function(data){
-					var id = data.key();
-					//setting the active project to the project we just created
-					$scope.activeProject = list[$scope.projects.$indexFor(id)];
+		$scope.projectModal.hide();
+		project.title = '';
+	};
+
+	$scope.deleteProject = function (project) {
+		console.log('deleteProject', project, project.$id);
+		var confirmPopup = $ionicPopup.confirm({
+			title: 'Are You Sure?',
+			template: '<p>Are you sure you want to delete project?<p> ' + project.title
+		});
+
+		confirmPopup.then(function (res) {
+			if (res) {
+				Projects.deleteProject(key).then(function (ref) {
+					if ($scope.projects.length > 0) {
+						$scope.selectProject($scope.projects[0].$id);
+					} else {
+						$scope.activeProject = { title: '', tasks: [] };
+						$scope.showProjectModal();
+					}
 				});
-				Projects.setLastActiveIndex(list.length);
-				//changing state if on about page so you're not stuck there forever
-				if($state.current.name !== 'app.tasks') {
-					$state.go('app.tasks')
-				}
+			} else {
+				console.log('Delete Project Cancelled');
 			}
-		};
-
-		$scope.deleteProject = function (index) {
-			Projects.deleteProject(index);
-		};
+		});
 		
-		$scope.selectProject = function (project, index) {
-
-			//changing state if on about page so you're not stuck there forever
-			if($state.current.name !== 'app.tasks') {
-				$state.go('app.tasks')
-			}
-
-			$scope.activeProject = project;
-			Projects.setLastActiveIndex(index);
-			$ionicSideMenuDelegate.toggleLeft();
-		};
-	}
+	};
+}
