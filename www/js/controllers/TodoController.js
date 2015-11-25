@@ -2,8 +2,8 @@ angular
 	.module('todoApp')
 	.controller('ToDoController', ToDoController);
 
-ToDoController.$inject = ['$scope', 'Projects', '$ionicModal', '$firebaseArray', 'FireBaseUrl'];
-function ToDoController($scope, Projects, $ionicModal, $firebaseArray, FireBaseUrl) {
+ToDoController.$inject = ['$scope', 'Projects', '$ionicModal', '$ionicPopup'];
+function ToDoController($scope, Projects, $ionicModal, $ionicPopup) {
 
 	// Create our modal
 	$ionicModal.fromTemplateUrl('templates/new-task.html', function (modal) {
@@ -38,7 +38,21 @@ function ToDoController($scope, Projects, $ionicModal, $firebaseArray, FireBaseU
 		Projects.completeTask(task, projectId, taskKey);
 	};
 
-	$scope.deleteTask = function (taskKey) {
-		Projects.deleteTask($scope.activeProject.$id, taskKey);
+	$scope.deleteTask = function (task, key) {
+		console.log('deleteTask', task, key);
+		var confirmPopup = $ionicPopup.confirm({
+			title: 'Are You Sure?',
+			template: '<p>Are you sure you want to delete task? </p>' + task.title
+		});
+
+		confirmPopup.then(function (res) {
+			if (res) {
+				Projects.deleteTask($scope.activeProject.$id, key);
+
+			} else {
+				console.log('Delete Task Cancelled');
+			}
+		});
+		
 	}
 }

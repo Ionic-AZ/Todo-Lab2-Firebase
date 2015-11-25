@@ -21,7 +21,7 @@
 						ng-click="selectProject(project.$id)"
 						ng-class="{'activeProject': activeProject.$id === project.$id}">
 					{{project.title}}
-					<i class="icon icon-accessory ion-close-circled" ng-click="deleteProject(project.$id)"></i>
+					<i class="icon icon-accessory ion-close-circled" ng-click="deleteProject(project)"></i>
 				</ion-item>
 				<ion-item menu-close href="#/app/about">
 					About

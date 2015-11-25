@@ -32,12 +32,10 @@
 		function deleteProject(key) {
 			console.log('Projects.deleteProject');
 			var item = globalProjects.$getRecord(key);
-			return globalProjects.$remove(item);
-			//.then(function(ref) {
-			//	console.log('project successfully deleted: ', ref);
-			//	return ref;
-			//});
 
+			return globalProjects.$remove(item).then(function(ref) {
+				setLastActiveIndex('');
+			});
 		}
 
 		function newProject(project) {

@@ -2,8 +2,22 @@ angular
 	.module('todoApp')
 	.controller('AppController', AppController);
 
-AppController.$inject = ['$scope', '$state', '$ionicModal', '$ionicSideMenuDelegate', 'Projects', '$firebaseArray', 'FireBaseUrl', '$ionicLoading'];
-function AppController($scope, $state, $ionicModal, $ionicSideMenuDelegate, Projects, $firebaseArray, FireBaseUrl, $ionicLoading) {
+AppController.$inject = [
+	'$scope',
+	'$state',
+	'$ionicModal',
+	'$ionicSideMenuDelegate',
+	'Projects',
+	'$ionicLoading',
+	'$ionicPopup'];
+function AppController(
+	$scope,
+	$state,
+	$ionicModal,
+	$ionicSideMenuDelegate,
+	Projects,
+	$ionicLoading,
+	$ionicPopup) {
 
 	//set reference to Firebase DB
 	var firebaseKeyRegEx = /^-[\w-]{19}$/;
@@ -17,7 +31,10 @@ function AppController($scope, $state, $ionicModal, $ionicSideMenuDelegate, Proj
 			console.log('lastActiveKey', lastActiveKey);
 			console.log('Check FB Key', firebaseKeyRegEx.test(lastActiveKey));
 			
-			if (firebaseKeyRegEx.test(lastActiveKey)) {
+			if ($scope.projects.length === 0) {
+				$scope.showProjectModal();
+			}
+			else if (firebaseKeyRegEx.test(lastActiveKey)) {
 				$scope.selectProject(lastActiveKey);
 			} else {
 				$scope.selectProject($scope.projects[0].$id);
@@ -86,15 +103,27 @@ function AppController($scope, $state, $ionicModal, $ionicSideMenuDelegate, Proj
 		project.title = '';
 	};
 
-	$scope.deleteProject = function (key) {
-		console.log('deleteProject', key);
-		Projects.deleteProject(key).then(function(ref) {
-			if ($scope.projects.length > 0) {
-				$scope.selectProject($scope.projects[0].$id);
+	$scope.deleteProject = function (project) {
+		console.log('deleteProject', project, project.$id);
+		var confirmPopup = $ionicPopup.confirm({
+			title: 'Are You Sure?',
+			template: '<p>Are you sure you want to delete project?<p> ' + project.title
+		});
+
+		confirmPopup.then(function (res) {
+			if (res) {
+				Projects.deleteProject(key).then(function (ref) {
+					if ($scope.projects.length > 0) {
+						$scope.selectProject($scope.projects[0].$id);
+					} else {
+						$scope.activeProject = { title: '', tasks: [] };
+						$scope.showProjectModal();
+					}
+				});
 			} else {
-				$scope.activeProject = { title: '', tasks: [] };
-				$scope.showProjectModal();
+				console.log('Delete Project Cancelled');
 			}
 		});
+		
 	};
 }
